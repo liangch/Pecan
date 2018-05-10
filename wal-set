@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+wal -i $HOME/Pictures/wallpapers -s
 sassc --style expanded "$(dirname "$0")/scss/style.scss" > "$(dirname "$0")/style.css" &&
 osascript <<EOD
   tell application "Übersicht"

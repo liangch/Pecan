@@ -9,4 +9,3 @@ if exists /usr/local/bin/chunkc ; then
 else
    	echo "⏻"
 fi
-
