@@ -1,9 +1,11 @@
 #!/usr/bin/env bash
 
-wal -i $HOME/Pictures/wallpapers -s
+wal -ets -i $HOME/Pictures/wallpapers
 sassc --style expanded "$(dirname "$0")/scss/style.scss" > "$(dirname "$0")/style.css" &&
-osascript <<EOD
-  tell application "Übersicht"
-  	refresh widget id "Pecan-background-coffee"
-  end tell
-EOD
+true
+#osascript <<EOD
+#  tell application "Übersicht"
+#  	refresh widget id "Pecan-background-coffee"
+#  end tell
+#EOD
+

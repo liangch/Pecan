@@ -61,7 +61,7 @@
 	--pecan-alignment-bottom: auto;
 
 	/* Mono font recommended (alignment depends on character width) */
-	--pecan-font: Iosevka Nerd Font Mono;
+	--pecan-font: Iosevka;
 	--pecan-font-size: 13px;
 	--pecan-font-style: none;
 
@@ -70,7 +70,7 @@
 	--pecan-xanthia-bg: #{$color4};
 	--pecan-xanthia-fg: #{$color0};
 	/* This is padding from edge of screen */
-	--pecan-xanthia-horizontal: calc(var(--pecan-padding-right) + calc(var(--pecan-text-padding) * 4) + 14ch + calc(3 * var(--pecan-border)));
+	--pecan-xanthia-horizontal: calc(var(--pecan-padding-right) + calc(var(--pecan-text-padding) * 4) + 35ch + calc(3 * var(--pecan-border)));
 	--pecan-xanthia-vertical: calc(var(--pecan-border) + var(--pecan-padding-v));
 	/* These are maximum sizes */
 	--pecan-xanthia-width: 400px;
