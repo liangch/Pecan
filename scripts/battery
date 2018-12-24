@@ -1,6 +1,6 @@
 #!/bin/bash
 
-bat(){
+bat() {
 	pmset -g batt | grep -o '[0-9]*%'
 }
 
