@@ -1,9 +1,9 @@
 refreshFrequency: false
 
 render: (output) ->
-	"<div class='screen'><div class='background' /></div>"
+	"<div class='screen'><div class='background'></div></div>"
 
 style: """
-           @import url(/Pecan/fontawesome-5.4.1/css/all.css);
-           @import url(/Pecan/style.css);
-       """
+    @import url(/Pecan/fontawesome-5.4.1/css/all.css);
+    @import url(/Pecan/style.css);
+"""

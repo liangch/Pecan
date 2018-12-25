@@ -1,29 +1,39 @@
 commands =
-	cpu : "ps -A -o %cpu | awk '{s+=$1} END {printf(\"%.f\",s/4);}'"
+	cpu : "ps -A -o %cpu | awk '{s+=$1} END {printf(\"%.0f\", s/4);}'"
 	battery : "bash Pecan/scripts/battery"
 	disk : "df -H / | awk 'END{print $4}'"
 	network : "bash Pecan/scripts/network"
 	ws: "bash Pecan/scripts/ws"
 	wifi: "networksetup -getairportnetwork en0 | cut -c 24-"
 
-# command: "echo " +
-# 	" \"↑↓\" $(#{ commands.network }) " +
-# 	" \"&nbsp;<i class='fa fa-spinner'></i>\" $(#{ commands.cpu }) " +
-# 	" \"&nbsp;<i class='fas fa-hdd'></i>\" $(#{ commands.disk })" +
-# 	" \"&nbsp;<i class='fas fa-battery-full'></i>\" $(#{ commands.battery })"
+icon_path = "/Pecan/icons"
+
 command: """
-echo \
-$(#{commands.cpu})'||'\
-$(#{commands.battery})'||'\
-$(#{commands.disk})'||'\
-$(#{commands.network})'||'\
-$(#{commands.ws})'||'\
-$(#{commands.wifi})'||'\
+	echo \
+	$(#{commands.cpu})'||'\
+	$(#{commands.battery})'||'\
+	$(#{commands.disk})'||'\
+	$(#{commands.network})'||'\
+	$(#{commands.ws})'||'\
+	$(#{commands.wifi})'||'\
 """
 
 refreshFrequency: '7s'
 
-render: (output) ->
+render: (output) -> """
+	<div class='screen'>
+		<div class='right'>
+			↑↓<span id='network'>network</span>
+			<img src='#{icon_path}/cpu.png' class='icon'><span id='cpu'>cpu</span>
+			<img src='#{icon_path}/wifi.png' class='icon'><span class='small' id='wifi'>wifi</span>
+			<img src='#{icon_path}/disk.png' class='icon'><span id='disk'>disk</span>
+			<img src='#{icon_path}/battery100.png' class='icon' id='battery_icon'><span id='battery'>battery</span>
+			<span id='ws'>ws</span>
+		</div>
+	</div>
+"""
+
+update: (output, domEl) ->
 	outputs = output.split('||')
 	cpu = outputs[0]
 	battery = outputs[1]
@@ -34,43 +44,28 @@ render: (output) ->
 
 	ws = workspace.split('|')[1].slice(0,3)
 	if ws == "bsp"
-		ws = "<i class='fas fa-th-large'></i>"
+		ws = "<i class='far fa-th-large'></i>"
 	else if ws == "mon"
-    	ws = "<i class='fas fa-dice-one'></i>"
+    	ws = "<i class='far fa-dice-one'></i>"
 	else if ws == "flo"
-    	ws = "<i class='fas fa-clone'></i>"
-
+    	ws = "<i class='far fa-clone'></i>"
 
 	charge = +battery.replace('%','')
 	if charge > 75
-		battery = "<i class='fas fa-battery-full'></i> #{charge}%"
+		battery_icon = "battery100.png"
 	else if charge > 50
-		battery = "<i class='fas fa-battery-three-quarters'></i> #{charge}%"
+		battery_icon = "battery70.png"
 	else if charge > 25
-		battery = "<i class='fas fa-battery-half'></i> #{charge}%"
+		battery_icon = "battery50.png"
 	else if charge > 10
-		battery = "<i class='fas fa-battery-quarter'></i> #{charge}%"
+		battery_icon = "battery10.png"
 	else
-		battery = "<i class='fas fa-battery-empty'></i> #{charge}%"
-		color = "#F44336"
-		style = "<style>
-		.quadrat {
-		-webkit-animation: NAME-YOUR-ANIMATION 0.5s infinite; 
-		}
-		@-webkit-keyframes NAME-YOUR-ANIMATION {
-		0%, 50% {
-			background-color: #95afc0;
-		}
-		50%, 100% {
-			background-color: #eb2f06;
-		}
-		}</style>"
+		battery_icon = "battery0.png"
 
-	"<div class='screen'><div class='right'>
-	↑↓ #{network}
-	<i class='fas fa-microchip'></i> #{cpu}
-	<i class='far fa-signal'></i> #{wifi}
-	<i class='fas fa-hdd'></i> #{disk}
-	#{battery}
-	#{ws}
-	</div></div>"
+	$('#network').html(network)
+	$('#cpu').html(cpu)
+	$('#wifi').html(wifi)
+	$('#disk').html(disk)
+	$('#battery').html(battery)
+	$('#battery_icon').attr('src', icon_path + '/' + battery_icon)
+	$('#ws').html(ws)

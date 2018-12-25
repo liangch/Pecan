@@ -221,7 +221,7 @@
   position: absolute;
   background-color: var(--pecan-bg-right);
   opacity: var(--pecan-opacity-inner);
-  padding: 0px var(--pecan-text-padding);
+  padding: 0px calc(var(--pecan-text-padding)/2);
   margin: var(--pecan-border);
   top: var(--pecan-alignment-top);
   left: auto;

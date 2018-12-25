@@ -217,7 +217,7 @@
   position: absolute;
   background-color: var(--pecan-bg-right);
   opacity: var(--pecan-opacity-inner);
-  padding: 0px var(--pecan-text-padding);
+  padding: 0px calc(var(--pecan-text-padding)/2);
   margin: var(--pecan-border);
   top: var(--pecan-alignment-top);
   left: auto;
@@ -232,4 +232,20 @@
   border-bottom-right-radius: var(--pecan-border-radius);
   border-bottom-left-radius: var(--pecan-border-radius-inner);
   box-shadow: var(--pecan-shadow-inner);
+}
+
+.right .small {
+  font-family: 'Noto Sans Display';
+  font-weight: normal;
+  font-size: 13px;
+  font-stretch: condensed;
+}
+
+.right .icon {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  position: relative;
+  top: 3px;
+  height: 16px;
 }
