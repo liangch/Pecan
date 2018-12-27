@@ -4,7 +4,8 @@ commands =
 	disk : "df -H / | awk 'END{print $4}'"
 	network : "bash Pecan/scripts/network"
 	ws: "bash Pecan/scripts/ws"
-	wifi: "networksetup -getairportnetwork en0 | cut -c 24-"
+	wifi: "networksetup -getairportnetwork en0 | cut -c 24- | head -n1"
+	vpn: "pgrep 'ShadowsocksX-NG'"
 
 icon_path = "/Pecan/icons"
 
@@ -16,6 +17,7 @@ command: """
 	$(#{commands.network})'||'\
 	$(#{commands.ws})'||'\
 	$(#{commands.wifi})'||'\
+	$(#{commands.vpn})'||'\
 """
 
 refreshFrequency: '7s'
@@ -24,8 +26,8 @@ render: (output) -> """
 	<div class='screen'>
 		<div class='right'>
 			↑↓<span id='network'>network</span>
+			<img src='#{icon_path}/vpn.png' class='icon' id='vpn'><img src='#{icon_path}/wifi.png' class='icon'><span class='small' id='wifi'>wifi</span>
 			<img src='#{icon_path}/cpu.png' class='icon'><span id='cpu'>cpu</span>
-			<img src='#{icon_path}/wifi.png' class='icon'><span class='small' id='wifi'>wifi</span>
 			<img src='#{icon_path}/disk.png' class='icon'><span id='disk'>disk</span>
 			<img src='#{icon_path}/battery100.png' class='icon' id='battery_icon'><span id='battery'>battery</span>
 			<span id='ws'>ws</span>
@@ -41,6 +43,7 @@ update: (output, domEl) ->
 	network = outputs[3]
 	workspace = outputs[4]
 	wifi = outputs[5]
+	vpn = outputs[6]
 
 	ws = workspace.split('|')[1].slice(0,3)
 	if ws == "bsp"
@@ -61,6 +64,14 @@ update: (output, domEl) ->
 		battery_icon = "battery10.png"
 	else
 		battery_icon = "battery0.png"
+
+	if wifi == "with an AirPort network."
+		wifi = ''
+
+	if vpn > 0 #pid
+		$('#vpn').show()
+	else 
+		$('#vpn').hide()
 
 	$('#network').html(network)
 	$('#cpu').html(cpu)
