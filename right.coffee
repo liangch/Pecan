@@ -6,6 +6,7 @@ commands =
 	ws: "bash Pecan/scripts/ws"
 	wifi: "networksetup -getairportnetwork en0 | cut -c 24- | head -n1"
 	vpn: "pgrep 'ShadowsocksX-NG'"
+	muted: "osascript -e 'output muted of (get volume settings)'"
 
 icon_path = "/Pecan/icons"
 
@@ -18,6 +19,7 @@ command: """
 	$(#{commands.ws})'||'\
 	$(#{commands.wifi})'||'\
 	$(#{commands.vpn})'||'\
+	$(#{commands.muted})'||'\
 """
 
 refreshFrequency: '7s'
@@ -25,6 +27,7 @@ refreshFrequency: '7s'
 render: (output) -> """
 	<div class='screen'>
 		<div class='right'>
+			<img src='#{icon_path}/muted.png' class='icon' id='muted'>
 			↑↓<span id='network'>network</span>
 			<img src='#{icon_path}/vpn.png' class='icon' id='vpn'><img src='#{icon_path}/wifi.png' class='icon'><span class='small' id='wifi'>wifi</span>
 			<img src='#{icon_path}/cpu.png' class='icon'><span id='cpu'>cpu</span>
@@ -44,6 +47,7 @@ update: (output, domEl) ->
 	workspace = outputs[4]
 	wifi = outputs[5]
 	vpn = outputs[6]
+	muted = outputs[7]
 
 	ws = workspace.split('|')[1].slice(0,3)
 	if ws == "bsp"
@@ -67,6 +71,11 @@ update: (output, domEl) ->
 
 	if wifi == "with an AirPort network."
 		wifi = ''
+
+	if muted
+		$('#muted').show()
+	else
+		$('#muted').hide()
 
 	if vpn > 0 #pid
 		$('#vpn').show()
