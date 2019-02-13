@@ -72,7 +72,7 @@ update: (output, domEl) ->
 	if wifi == "with an AirPort network."
 		wifi = ''
 
-	if muted
+	if muted == "true"
 		$('#muted').show()
 	else
 		$('#muted').hide()
